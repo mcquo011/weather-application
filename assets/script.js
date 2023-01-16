@@ -39,6 +39,6 @@ function weather(cityName) {
 
 search.addEventListener('click', function(){
   event.preventDefault();
-  let searchValue = city.value
-  weather(searchValue);
+  let searchCity = city.value
+  weather(searchCity);
 }) 
