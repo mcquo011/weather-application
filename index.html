@@ -26,14 +26,15 @@
             </div>
             <button type="submit" id="button" class="btn btn-primary w-100">Search</button>
         </form>
-        <div class="bg-secondary rounded my-4 text-align-center"id="currentCity">
+        <!--button for search history-->
+        <button class="p-2 m-4 bg-secondary btn btn-primary w-75 d-none searchHistory"></button>
         </div>
     </div>
     <div class="col-12 col-lg-6">
 
 
         <!-- Day report-->
-        <div class="card-body bg-light border border-dark p-4 my-4">
+        <div class="card-body bg-light border border-dark p-4 my-4 d-none" id="weatherData">
             <h2 id="currentDay"></h2>
             <div id="body">
                 <p id="Currentdate"></p>
@@ -47,17 +48,14 @@
     </main>
 
     <div class="row text-end">
-        <!-- 5 day report -->
-        <div class="row">
-        <div class="col-12 col-md-6" id="weather-week">
-            <div class="col-12">
-                <h2>5-day Forcast </h2>
-            </div>
+        <!-- 5 day report title -->
+        <div class="col-12 col-md-6" id="weather-week">  
+            <h2>5-day Forcast </h2>
         </div>
-    </div>
- <!--html cards for 5 day-->
+   
+ <!--html cards for 5 day?-->
  <div>
-<div></div>
+<div class="forecast"></div>
 <div></div>
 <div></div>
 <div></div>
