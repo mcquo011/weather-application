@@ -1,15 +1,17 @@
-let search = document.querySelector('#button');
-let city = document.querySelector('#inputValue');
-let currentDay = document.querySelector('#currentDay');
-let cityHistory = document.querySelector('.searchHistory')
-let temp = document.querySelector('#temp');
-let humidity = document.querySelector('#humidity');
-let wind = document.querySelector('#wind');
+const search = document.querySelector('#button');
+const city = document.querySelector('#inputValue');
+const currentDay = document.querySelector('#currentDay');
+const cityHistory = document.querySelector('.searchHistory')
+const temp = document.querySelector('#temp');
+const humidity = document.querySelector('#humidity');
+const wind = document.querySelector('#wind');
 // history var
-let history = [];
-let forecast = document.querySelector('.forecast')
+const history = [];
+const forecast = document.querySelector('.forecast')
+//var cityLat;
+//var cityLon;
 
-let APIkey = "3118a6b9d3ec49beecd43997664c59b9";
+const APIkey = "3118a6b9d3ec49beecd43997664c59b9";
   
 
 function weather(cityName) {
@@ -20,11 +22,16 @@ function weather(cityName) {
     APIkey;
 
      fetch(queryURL)
-       .then((response) => response.json())
-       .then((data) => {
+       .then(function (response) {
+         return response.json();
+       })
+       .then(function (data) {
          console.log(data);
+         let cityLat = data.coord.lat
+         let cityLon = data.coord.lon
+         
          let date = new Date();
-         let currentDate = date.toLocaleDateString();  
+         let currentDate = date.toLocaleDateString();
          currentDay.innerHTML = data.name + " (" + currentDate + ")";
          // convert to fahrenheit
          let fahrenheitTemp = Math.round(
@@ -35,36 +42,54 @@ function weather(cityName) {
          wind.innerHTML = "wind speed: " + data.wind.speed + " m/s";
 
          cityHistory.innerHTML = data.name;
-          // Add the searched city to an array
-          history.push(data.name);
-          // Save the array to local storage
-          localStorage.setItem("history", JSON.stringify(history));
-          console.log(history);
+         // Add the searched city to an array
+         history.push(data.name);
+         // Save the array to local storage
+         localStorage.setItem("history", JSON.stringify(history));
+         console.log(history);
+         let forecastQueryURL =
+           "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+           cityLat +
+           "&lon=" +
+           cityLon +
+           "&appid=" +
+           APIkey;
+
+         fetch(forecastQueryURL)
+           .then(function (response) {
+             return response.json();
+           })  
+           .then(function (data) {
+          console.log(data.list[0]);
+          console.log(data.list[8]);
+          console.log(data.list[16]);
+          console.log(data.list[22]);
+          console.log(data.list[30]);
+           
+        var forecastCards = document.getElementsByClassName("forecast");
+        for (var i = 0; i < forecastCards.length; i++) {
+          let date = new Date(data.list[i * 8].dt_txt);
+          forecastCards[i].textContent = date.toLocaleDateString()
+           var temp = document.createElement("p");
+           temp.textContent = "Temp: " + data.list[i * 8].main.temp + "°C";
+
+           var humidity = document.createElement("p");
+           humidity.textContent =
+             "Humidity: " + data.list[i * 8].main.humidity + "%";
+
+           var wind = document.createElement("p");
+           wind.textContent =
+             "Wind Speed: " + data.list[i * 8].wind.speed + "m/s";
+             
+           forecastCards[i].appendChild(temp);
+           forecastCards[i].appendChild(humidity);
+           forecastCards[i].appendChild(wind);
+        }
+           })
+           .catch((error) => console.log(error));
        })
        .catch((error) => console.log(error));
-       
-       
-       // how do I use lon and lat ??? do I need to?? 
-       let forecastQueryURL =
-      "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName +
-     "&appid=" + APIkey;
-
-  fetch(forecastQueryURL)
-    .then((response) => response.json())
-    .then((data) => {
-      const fiveDayForecast = data.list.slice(0, 5);
-      for (let i = 0; i < fiveDayForecast.length; i++) {
-        let forecast = fiveDayForecast[i];
-        console.log(
-          forecast.dt_txt +
-            ": " +
-            forecast.main.temp +
-            "F, " + forecast.wind.speed + " m/s " +
-            forecast.weather[0].description
-        );
-      }
-    })
-    .catch((error) => console.log(error));
+      
 }
 
 
@@ -81,7 +106,8 @@ search.addEventListener("click", function (event) {
 });
 
 // save search history to local storage
-// add an event listener to the history buttons 
+// add an event listener to the history buttons to call weather function
+// add clear history button
 
 
 
