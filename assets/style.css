@@ -3,3 +3,10 @@
     flex-wrap: wrap;
 }
 
+.card-margin {
+    margin: 1rem;
+}
+
+.ms-1 {
+  margin-left: 50px;
+}

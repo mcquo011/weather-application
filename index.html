@@ -21,14 +21,17 @@
   <main class="row align-items-end">
      <div class="col-12 w-25 col-md-6">
         <form class="p-4">
-            <h2>Search for City:</h2>
+            <h2>Search for a City:</h2>
             <div class="mb-3">
                 <input type="text" class="form-control" id="inputValue">
             </div>
-            <button type="submit" id="button" class="btn btn-primary w-100">Search</button>
+            <button type="submit" id="button" class="btn btn-primary w-100 my-1">Search</button>
+            <div class="d-none searchHistory"></div>
+            <button class="d-none btn btn-primary w-75 my-4"id="clear">Clear history</button>
         </form>
         <!--button for search history-->
-        <button class="p-2 m-4 bg-secondary btn btn-primary w-75 d-none searchHistory"></button>
+        
+        
         </div>
     </div>
     <div class="col-12 col-lg-6">
@@ -48,32 +51,33 @@
 
     </main>
 
-    <div class="row text-end">
+    <div class="row text-end d-none">
         <!-- 5 day report title -->
         <div class="col-12 col-md-6" id="weather-week">  
             <h2>5-day Forcast </h2>
         </div>
+        </div>
    
  <!--html cards for 5 day?-->
-<div class="card-container d-flex flex-wrap p-4 g-3">
+<div class="card-container d-flex flex-wrap p-y g-3 ms-1 justify-content-center d-none">
     <div class="card text-white bg-primary mb-3 g-3" style="max-width: 18rem;">
-        <div class="card-header forecast"></div>
+        <div class="card-header forecast-data"></div>
       
     </div>
-    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-        <div class="card-header forecast"></div>
+    <div class="card text-white bg-primary mb-3 g-3" style="max-width: 18rem;">
+        <div class="card-header forecast-data"></div>
     </div>
-    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-        <div class="card-header forecast"></div>
+    <div class="card text-white bg-primary mb-3 g-3" style="max-width: 18rem;">
+        <div class="card-header forecast-data"></div>
     </div>
-    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-        <div class="card-header forecast"></div>
+    <div class="card text-white bg-primary mb-3 g-3" style="max-width: 18rem;">
+        <div class="card-header forecast-data"></div>
         </div>
-    <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-        <div class="card-header forecast"></div>
+    <div class="card text-white bg-primary mb-3 g-3" style="max-width: 18rem;">
+        <div class="card-header forecast-data"></div>
         </div>
     </div>
-</div>
+
 
 
 

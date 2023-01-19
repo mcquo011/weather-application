@@ -5,11 +5,11 @@ const cityHistory = document.querySelector('.searchHistory')
 const temp = document.querySelector('#temp');
 const humidity = document.querySelector('#humidity');
 const wind = document.querySelector('#wind');
+let clearHistory = document.querySelector('#clear');
 // history var
-const history = [];
-const forecast = document.querySelector('.forecast')
-//var cityLat;
-//var cityLon;
+let searchHistory = JSON.parse(localStorage.getItem("search")) || []
+
+
 
 const APIkey = "3118a6b9d3ec49beecd43997664c59b9";
   
@@ -41,12 +41,6 @@ function weather(cityName) {
          humidity.innerHTML = "Humidity: " + data.main.humidity + " %";
          wind.innerHTML = "wind speed: " + data.wind.speed + " m/s";
 
-         cityHistory.innerHTML = data.name;
-         // Add the searched city to an array
-         history.push(data.name);
-         // Save the array to local storage
-         localStorage.setItem("history", JSON.stringify(history));
-         console.log(history);
          let forecastQueryURL =
            "https://api.openweathermap.org/data/2.5/forecast?lat=" +
            cityLat +
@@ -59,25 +53,22 @@ function weather(cityName) {
            .then(function (response) {
              return response.json();
            })  
-           .then(function (data) {
-          console.log(data.list[0]);
-          console.log(data.list[8]);
-          console.log(data.list[16]);
-          console.log(data.list[22]);
-          console.log(data.list[30]);
-           
-        var forecastCards = document.getElementsByClassName("forecast");
+           .then(function (data) {    
+        var forecastCards = document.getElementsByClassName("forecast-data");
         for (var i = 0; i < forecastCards.length; i++) {
           let date = new Date(data.list[i * 8].dt_txt);
           forecastCards[i].textContent = date.toLocaleDateString()
            var temp = document.createElement("p");
+           temp.classList.add("card-margin");
            temp.textContent = "Temp: " + data.list[i * 8].main.temp + "°C";
 
            var humidity = document.createElement("p");
+           humidity.classList.add("card-margin")
            humidity.textContent =
              "Humidity: " + data.list[i * 8].main.humidity + "%";
 
            var wind = document.createElement("p");
+           wind.classList.add("card-margin")
            wind.textContent =
              "Wind Speed: " + data.list[i * 8].wind.speed + "m/s";
              
@@ -98,6 +89,9 @@ search.addEventListener("click", function (event) {
   event.preventDefault();
   let cityName = city.value;
   weather(cityName);
+  searchHistory.push(cityName)
+  localStorage.setItem("search", JSON.stringify(searchHistory))
+  renderHistory();
   // only show when search button is clicked and a city is entered 
   document.querySelectorAll(".d-none").forEach(function (element) {
     element.classList.toggle("d-none");
@@ -105,9 +99,40 @@ search.addEventListener("click", function (event) {
   });
 });
 
-// save search history to local storage
-// add an event listener to the history buttons to call weather function
-// add clear history button
+function renderHistory() {
+    cityHistory.innerHTML = "" 
+  for (let i = 0; i < searchHistory.length; i++) {
+    const historyBtn = document.createElement("button")
+    historyBtn.innerHTML = searchHistory[i]
+    historyBtn.setAttribute("type", "text")
+    historyBtn.classList.add("bg-dark", "btn", "text-white", "p-2", "my-2", "d-flex", "flex-wrap")
+    historyBtn.setAttribute("value", searchHistory[i])
+    // event listener to bring back weather data for that city when history buttons are clicked
+   historyBtn.addEventListener("click", function (event) {
+     event.preventDefault();
+     let cityName = event.target.textContent;
+     weather(cityName); 
+     city.value = cityName;
+   });
+
+    document.querySelector('.searchHistory').appendChild(historyBtn)
+  }
+  }
+
+
+
+  // gives the user the option to clear history
+  clearHistory.addEventListener("click", function(event){
+    if (confirm("Are you sure you want to clear history?")){
+      localStorage.clear();
+      cityHistory.innerHTML = "";
+
+
+    }
+  })
+
+
+
 
 
 
