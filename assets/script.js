@@ -26,7 +26,6 @@ function weather(cityName) {
          return response.json();
        })
        .then(function (data) {
-         console.log(data);
          let cityLat = data.coord.lat
          let cityLon = data.coord.lon
          
@@ -54,13 +53,16 @@ function weather(cityName) {
              return response.json();
            })  
            .then(function (data) {    
-        var forecastCards = document.getElementsByClassName("forecast-data");
+        let forecastCards = document.getElementsByClassName("forecast-data");
         for (var i = 0; i < forecastCards.length; i++) {
           let date = new Date(data.list[i * 8].dt_txt);
           forecastCards[i].textContent = date.toLocaleDateString()
            var temp = document.createElement("p");
+           let fahrenheitTemp = Math.round(
+             ((data.list[i * 8].main.temp - 273.15) * 9) / 5 + 32
+           );
            temp.classList.add("card-margin");
-           temp.textContent = "Temp: " + data.list[i * 8].main.temp + "°C";
+           temp.textContent = "Temp: " + fahrenheitTemp + "°F";
 
            var humidity = document.createElement("p");
            humidity.classList.add("card-margin")
@@ -105,7 +107,7 @@ function renderHistory() {
     const historyBtn = document.createElement("button")
     historyBtn.innerHTML = searchHistory[i]
     historyBtn.setAttribute("type", "text")
-    historyBtn.classList.add("bg-dark", "btn", "text-white", "p-2", "my-2", "d-flex", "flex-wrap")
+    historyBtn.classList.add("bg-dark", "btn", "text-white", "p-2", "my-2", "d-flex", "flex-wrap", "w-25", "text-center")
     historyBtn.setAttribute("value", searchHistory[i])
     // event listener to bring back weather data for that city when history buttons are clicked
    historyBtn.addEventListener("click", function (event) {
