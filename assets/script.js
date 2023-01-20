@@ -5,6 +5,7 @@ const cityHistory = document.querySelector('.searchHistory')
 const temp = document.querySelector('#temp');
 const humidity = document.querySelector('#humidity');
 const wind = document.querySelector('#wind');
+const currentIcon = document.querySelector('#current-icon')
 let clearHistory = document.querySelector('#clear');
 // history var
 let searchHistory = JSON.parse(localStorage.getItem("search")) || []
@@ -26,12 +27,18 @@ function weather(cityName) {
          return response.json();
        })
        .then(function (data) {
+        console.log(data)
          let cityLat = data.coord.lat
          let cityLon = data.coord.lon
          
          let date = new Date();
          let currentDate = date.toLocaleDateString();
          currentDay.innerHTML = data.name + " (" + currentDate + ")";
+
+         //add icon 
+         let iconcode = data.weather[0].icon
+         let iconurl = "https://openweathermap.org/img/wn/" + iconcode + ".png"
+         currentIcon.setAttribute('src', iconurl)
          // convert to fahrenheit
          let fahrenheitTemp = Math.round(
            ((data.main.temp - 273.15) * 9) / 5 + 32
@@ -55,28 +62,42 @@ function weather(cityName) {
            .then(function (data) {    
         let forecastCards = document.getElementsByClassName("forecast-data");
         for (var i = 0; i < forecastCards.length; i++) {
+          forecastCards[i].innerHTML = ""; // this will clear the previous forecast data
           let date = new Date(data.list[i * 8].dt_txt);
-          forecastCards[i].textContent = date.toLocaleDateString()
-           var temp = document.createElement("p");
-           let fahrenheitTemp = Math.round(
-             ((data.list[i * 8].main.temp - 273.15) * 9) / 5 + 32
-           );
-           temp.classList.add("card-margin");
-           temp.textContent = "Temp: " + fahrenheitTemp + "°F";
+          let dateElement = document.createElement("p");
+          dateElement.classList.add("bg-light", "text-dark", "px-4", "w-100");
+          dateElement.textContent = date.toLocaleDateString();
+          forecastCards[i].appendChild(dateElement);
+          var temp = document.createElement("p");
+          let fahrenheitTemp = Math.round(
+            ((data.list[i * 8].main.temp - 273.15) * 9) / 5 + 32
+          );
+          temp.classList.add("card-margin");
+          temp.textContent = "Temp: " + fahrenheitTemp + "°F";
 
-           var humidity = document.createElement("p");
-           humidity.classList.add("card-margin")
-           humidity.textContent =
-             "Humidity: " + data.list[i * 8].main.humidity + "%";
+          var humidity = document.createElement("p");
+          humidity.classList.add("card-margin");
+          humidity.textContent =
+            "Humidity: " + data.list[i * 8].main.humidity + "%";
 
-           var wind = document.createElement("p");
-           wind.classList.add("card-margin")
-           wind.textContent =
-             "Wind Speed: " + data.list[i * 8].wind.speed + "m/s";
-             
-           forecastCards[i].appendChild(temp);
-           forecastCards[i].appendChild(humidity);
-           forecastCards[i].appendChild(wind);
+          var wind = document.createElement("p");
+          wind.classList.add("card-margin");
+          wind.textContent =
+            "Wind Speed: " + data.list[i * 8].wind.speed + "m/s";
+
+          // weather icons
+          const forecastIcons = document.createElement("img");
+          forecastIcons.setAttribute(
+            "src",
+            "https://openweathermap.org/img/wn/" +
+              data.list[i * 8].weather[0].icon +
+              "@2x.png",
+            forecastCards[i].append(forecastIcons)
+          );
+
+          forecastCards[i].appendChild(temp);
+          forecastCards[i].appendChild(humidity);
+          forecastCards[i].appendChild(wind);
         }
            })
            .catch((error) => console.log(error));
