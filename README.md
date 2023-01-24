@@ -14,7 +14,7 @@ Used git clone to connect my repo to my local device.
 
 ## Usage
 
-To use this weather application, simply search for a city using the search bar on the main screen. When the search button is clicked, the current weather will be displayed showing the date, temperature, humidity, and wind-speed. The next five days of weather will display below the current weather. The user will also see icons indicated the current weather conditions. Below the search bar users will see their city search history. If the user clicks on a previous city, that city weather will display. The user can clear the search histy with the "Clear history" button. 
+To use this weather application, simply search for a city using the search bar on the main screen. When the search button is clicked, the current weather will be displayed showing the date, temperature, humidity, and wind-speed. The next five days of weather will display below the current weather. The user will also see icons indicating the current weather conditions. Below the search bar users will see their city search history. If the user clicks on a previous city, that city weather will display. The user can clear the search histy with the "Clear history" button. 
 
 ## Contributing
 

@@ -7,7 +7,7 @@ const humidity = document.querySelector('#humidity');
 const wind = document.querySelector('#wind');
 const currentIcon = document.querySelector('#current-icon')
 let clearHistory = document.querySelector('#clear');
-// history var
+
 let searchHistory = JSON.parse(localStorage.getItem("search")) || []
 
 
@@ -39,7 +39,7 @@ function weather(cityName) {
          let iconcode = data.weather[0].icon
          let iconurl = "https://openweathermap.org/img/wn/" + iconcode + ".png"
          currentIcon.setAttribute('src', iconurl)
-         // convert to fahrenheit
+      
          let fahrenheitTemp = Math.round(
            ((data.main.temp - 273.15) * 9) / 5 + 32
          );
@@ -63,7 +63,7 @@ function weather(cityName) {
             console.log(data)
         let forecastCards = document.getElementsByClassName("forecast-data");
         for (var i = 0; i < forecastCards.length; i++) {
-          forecastCards[i].innerHTML = ""; // this will clear the previous forecast data
+          forecastCards[i].innerHTML = ""; 
           let date = new Date(data.list[i * 8 + 6].dt_txt);
           let dateElement = document.createElement("p");
           dateElement.classList.add("bg-light", "text-dark", "px-4", "w-100", "rounded");
@@ -86,7 +86,6 @@ function weather(cityName) {
           wind.textContent =
             "Wind Speed: " + data.list[i * 8 + 6].wind.speed + "m/s";
 
-          // weather icons
           const forecastIcons = document.createElement("img");
           forecastIcons.setAttribute(
             "src",
@@ -108,7 +107,7 @@ function weather(cityName) {
 }
 
 
-// event listener when search button is clicked
+
 search.addEventListener("click", function (event) {
   event.preventDefault();
   let cityName = city.value;
@@ -116,7 +115,7 @@ search.addEventListener("click", function (event) {
   searchHistory.push(cityName)
   localStorage.setItem("search", JSON.stringify(searchHistory))
   renderHistory();
-  // only show when search button is clicked and a city is entered 
+
   document.querySelectorAll(".d-none").forEach(function (element) {
     element.classList.toggle("d-none");
 
@@ -144,7 +143,7 @@ function renderHistory() {
       "flex-wrap"
     );
     historyBtn.setAttribute("value", searchHistory[i])
-    // event listener to bring back weather data for that city when history buttons are clicked
+
    historyBtn.addEventListener("click", function (event) {
      event.preventDefault();
      let cityName = event.target.textContent;
@@ -158,7 +157,7 @@ function renderHistory() {
 
 
 
-  // gives the user the option to clear history
+
   clearHistory.addEventListener("click", function(event){
     if (confirm("Are you sure you want to clear history?")){
       localStorage.clear();
