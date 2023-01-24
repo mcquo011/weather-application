@@ -60,17 +60,18 @@ function weather(cityName) {
              return response.json();
            })  
            .then(function (data) {    
+            console.log(data)
         let forecastCards = document.getElementsByClassName("forecast-data");
         for (var i = 0; i < forecastCards.length; i++) {
           forecastCards[i].innerHTML = ""; // this will clear the previous forecast data
-          let date = new Date(data.list[i * 8].dt_txt);
+          let date = new Date(data.list[i * 8 + 6].dt_txt);
           let dateElement = document.createElement("p");
-          dateElement.classList.add("bg-light", "text-dark", "px-4", "w-100");
+          dateElement.classList.add("bg-light", "text-dark", "px-4", "w-100", "rounded");
           dateElement.textContent = date.toLocaleDateString();
           forecastCards[i].appendChild(dateElement);
           var temp = document.createElement("p");
           let fahrenheitTemp = Math.round(
-            ((data.list[i * 8].main.temp - 273.15) * 9) / 5 + 32
+            ((data.list[i * 8 + 6].main.temp - 273.15) * 9) / 5 + 32
           );
           temp.classList.add("card-margin");
           temp.textContent = "Temp: " + fahrenheitTemp + "°F";
@@ -78,19 +79,19 @@ function weather(cityName) {
           var humidity = document.createElement("p");
           humidity.classList.add("card-margin");
           humidity.textContent =
-            "Humidity: " + data.list[i * 8].main.humidity + "%";
+            "Humidity: " + data.list[i * 8 + 6].main.humidity + "%";
 
           var wind = document.createElement("p");
           wind.classList.add("card-margin");
           wind.textContent =
-            "Wind Speed: " + data.list[i * 8].wind.speed + "m/s";
+            "Wind Speed: " + data.list[i * 8 + 6].wind.speed + "m/s";
 
           // weather icons
           const forecastIcons = document.createElement("img");
           forecastIcons.setAttribute(
             "src",
             "https://openweathermap.org/img/wn/" +
-              data.list[i * 8].weather[0].icon +
+              data.list[i * 8 + 6].weather[0].icon +
               "@2x.png",
             forecastCards[i].append(forecastIcons)
           );
@@ -128,7 +129,20 @@ function renderHistory() {
     const historyBtn = document.createElement("button")
     historyBtn.innerHTML = searchHistory[i]
     historyBtn.setAttribute("type", "text")
-    historyBtn.classList.add("bg-dark", "btn", "text-white", "p-2", "my-2", "d-flex", "flex-wrap", "w-25", "text-center")
+    historyBtn.classList.add(
+      "bg-dark",
+      "btn",
+      "text-white",
+      "p-2",
+      "my-1",
+      "w-100",
+      "text-center",
+      "gap-2",
+      "border",
+      "border-light",
+      "border-2",
+      "flex-wrap"
+    );
     historyBtn.setAttribute("value", searchHistory[i])
     // event listener to bring back weather data for that city when history buttons are clicked
    historyBtn.addEventListener("click", function (event) {
