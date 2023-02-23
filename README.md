@@ -8,6 +8,13 @@ To get this application up and running, follow the deployed Github page below:
 
 [Deployed Application](https://mcquo011.github.io/weather-application/)
 
+## Built With
+
+* HTML
+* CSS
+* JavaScript
+* Open weather API
+
 ## Installation 
 
 Used git clone to connect my repo to my local device.
